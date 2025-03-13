@@ -1,0 +1,90 @@
+body{
+    background-color: #5a5a5a;
+    font-family: Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 100%;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+button.next{
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    bottom: 0;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    width: 100px;
+}
+
+button.next:hover{
+    background-color: #45a049;
+}
+
+.card {
+    background-color: #dfdddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 400px;
+    max-height: 300px;
+    max-width: 100%;
+    transition: 2s;
+}
+
+.card > #content{
+    width: 100%;
+    height: 50px;
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+p {
+    animation: fadeEffect 3s;
+}
+p#stage1{
+    display: block;
+}
+
+p#stage2{
+    display: none;
+}
+
+.card.bigger{
+    transform: scale(1.5);
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    padding-bottom: 10px;
+    width: 100%;
+    height: auto;
+    background-color: #2e2e2e;
+    color: white;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+a {
+    color: whitesmoke;
+    text-decoration: none;
+}
