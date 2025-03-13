@@ -1,4 +1,3 @@
-# PAKA ALBO SRAKA
-### pakaalbosraka.top
+# [PAKA ALBO SRAKA](https://pakaalbosraka.top)
 
 CURRENTLY UNDER DEVELOPEMENT
