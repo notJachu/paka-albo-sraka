@@ -7,6 +7,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
+    
 }
 
 footer {
@@ -24,4 +25,24 @@ footer {
 a {
     color: whitesmoke;
     text-decoration: none;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 100%;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+.card {
+    background-color: #dfdddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 400px;
+    max-height: 300px;
+    max-width: 100%;
+    transition: 2s;
 }
