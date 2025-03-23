@@ -31,6 +31,54 @@ body {
     top: 40%;
 }
 
+.card {
+    display: flex;
+    background-color: #dfdddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 400px;
+    max-height: 300px;
+    min-height: 30vh;
+    max-width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    transition: 2s;
+}
+
+form {
+    width: 400px;
+    justify-content: space-evenly;
+    align-items: center;
+    display: flex;
+}
+
+.form-button{
+    width: 5rem;
+    padding: 10px;
+    border-radius: 3rem;
+    text-align: center;
+    font-size: large;
+    border-style: hidden;
+    box-shadow: -3px 3px 5px grey;
+}
+
+#paka {
+    background-color: #3abd06;
+}
+
+#paka:hover {
+    background-color: #2f9706;
+}
+
+#sraka {
+    background-color: #e63737;
+}
+
+#sraka:hover {
+    background-color: #bb0d0d;
+}
+
 footer {
     position: fixed;
     bottom: 0;
@@ -51,16 +99,4 @@ footer {
 a {
     color: whitesmoke;
     text-decoration: none;
-}
-
-
-.card {
-    background-color: #dfdddd;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 400px;
-    max-height: 300px;
-    max-width: 100%;
-    transition: 2s;
 }
