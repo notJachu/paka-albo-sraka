@@ -66,6 +66,17 @@ form {
     box-shadow: -3px 3px 5px grey;
 }
 
+#skip{
+    width: 20rem;
+    padding: 10px;
+    border-radius: 3rem;
+    text-align: center;
+    font-size: large;
+    border-style: hidden;
+    box-shadow: -3px 3px 5px grey;
+    background-color: #afb2ae;
+}
+
 #paka {
     background-color: #3abd06;
 }
