@@ -7,6 +7,7 @@
     <title>Pakujemy</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
@@ -17,8 +18,11 @@
         <div class="break"></div>
         <div class="card">
             <form id="forma" method="post">
-                <input type="submit" value="PAKA" name="vote" id="paka" class="form-button">
-                <input type="submit" value="SRAKA" name="vote" id="sraka" class="form-button">
+                <div class="g-recaptcha" data-sitekey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT" data-callback="captchaSubmited"></div>
+                <div class="break" style="margin-bottom: 10px;"></div>
+                <input type="submit" value="PAKA" name="vote" id="paka" class="form-button" disabled style="display: none;">
+                <input type="submit" value="SRAKA" name="vote" id="sraka" class="form-button" disabled style="display: none;">
+        
             </form>
         </div>
 
@@ -29,6 +33,17 @@
 
     </div>
 
+    <script>
+        function captchaSubmited() {
+            console.log("Captcha submited!");
+            const pakaButton = document.getElementById("paka");
+            const srakaButton = document.getElementById("sraka");
+            pakaButton.style.display = "block";
+            srakaButton.style.display = "block";
+            pakaButton.disabled = false;
+            srakaButton.disabled = false;
+        }
+    </script>
     
 </body>
 
