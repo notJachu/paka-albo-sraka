@@ -7,6 +7,7 @@
     <title>Pakujemy</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
@@ -16,10 +17,18 @@
         <h1>PAKA ALBO SRAKA</h1>
         <div class="break"></div>
         <div class="card">
-            <form id="forma" method="post">
-                <input type="submit" value="PAKA" name="vote" id="paka" class="form-button">
-                <input type="submit" value="SRAKA" name="vote" id="sraka" class="form-button">
+            <form id="forma" method="post" onsubmit="checkCaptcha(event, this);">
+                <div class="g-recaptcha" data-sitekey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT" data-callback="captchaSubmited"></div>
+                <div class="break" style="margin-bottom: 10px;"></div>
+                <input type="submit" value="PAKA" name="vote" id="paka" class="form-button" disabled style="display: none;" onclick="setVote('PAKA');">
+                <input type="submit" value="SRAKA" name="vote" id="sraka" class="form-button" disabled style="display: none; " onclick="setVote('SRAKA');">
+        
             </form>
+            <a href="results">
+            <button id="skip">
+                <p>Show Results</p>
+            </button>
+            </a>
         </div>
 
 
@@ -29,6 +38,37 @@
 
     </div>
 
+    <script>
+        function captchaSubmited() {
+            console.log("Captcha submited!");
+            const pakaButton = document.getElementById("paka");
+            const srakaButton = document.getElementById("sraka");
+            pakaButton.style.display = "block";
+            srakaButton.style.display = "block";
+            pakaButton.disabled = false;
+            srakaButton.disabled = false;
+        }
+
+        function checkCaptcha(event, form) {
+            event.preventDefault();
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (recaptchaResponse.length === 0) {
+                alert("Please complete the CAPTCHA.");
+                return;
+            }
+            form.submit();
+        }
+        
+        // probably the stupidest hotfix i have ever done for a problem that i created
+        function setVote(vote) {
+            const form = document.getElementById("forma");
+            const input = document.createElement("input");
+            input.type = "hidden";  
+            input.name = "vote";
+            input.value = vote;
+            form.appendChild(input);
+        }
+    </script>
     
 </body>
 

@@ -1,4 +1,6 @@
-const express = require('express')
+const { verify } = require('crypto');
+const express = require('express');
+require('dotenv').config();
 const app = express()
 const port = 80
 
@@ -47,9 +49,40 @@ app.get('/results', (req, res) => {
 });
 
 
+async function verifyCaptcha(captchaResponse) {
+  params = new URLSearchParams({
+    secret: process.env.CAPTCHA_SECRET_KEY,
+    response: captchaResponse
+  });
+
+  const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
+    body: params
+  });
+  const data = await response.json();
+  if (data.success) {
+    return true;
+  } else {
+    console.error('Captcha verification failed:', data['error-codes']);
+    return false;
+  }
+}
+
 app.post('/', express.urlencoded({ extended: true }), (req, res) => {
   const formData = req.body;
   console.log('Form Data:', formData);
+
+  captchaResponse = formData['g-recaptcha-response'];
+  if (!captchaResponse) {
+    res.status(400).send('Captcha response is missing.');
+    return;
+  }
+
+  if (!verifyCaptcha(captchaResponse)) {
+    res.status(403).send('Captcha verification failed.');
+    return;
+  }
+
   res.redirect('results');
   if (formData.vote === 'PAKA') {
     daily_state.data.paka++;

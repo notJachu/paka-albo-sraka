@@ -52,6 +52,8 @@ form {
     justify-content: space-evenly;
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .form-button{
@@ -62,6 +64,17 @@ form {
     font-size: large;
     border-style: hidden;
     box-shadow: -3px 3px 5px grey;
+}
+
+#skip{
+    width: 20rem;
+    padding: 10px;
+    border-radius: 3rem;
+    text-align: center;
+    font-size: large;
+    border-style: hidden;
+    box-shadow: -3px 3px 5px grey;
+    background-color: #afb2ae;
 }
 
 #paka {
