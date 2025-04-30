@@ -40,7 +40,7 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
 
   if (req.cookies['from-wife']) {
-    res.sendFile(__dirname + '/front/thanks.html');
+    res.redirect('/thanks');
   }
   else {
     res.sendFile(__dirname + '/front/index.html');
@@ -54,6 +54,14 @@ app.get('/daily', (req, res) => {
 
 app.get('/results', (req, res) => {
   res.sendFile(__dirname + '/front/results.html');
+});
+
+app.get('/thanks', (req, res) => {
+  if (!req.cookies['from-wife']) {
+    res.redirect('/');
+    return;
+  }
+  res.sendFile(__dirname + '/front/thanks.html');
 });
 
 
