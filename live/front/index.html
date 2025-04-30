@@ -17,11 +17,11 @@
         <h1>PAKA ALBO SRAKA</h1>
         <div class="break"></div>
         <div class="card">
-            <form id="forma" method="post">
+            <form id="forma" method="post" onsubmit="checkCaptcha(event, this);">
                 <div class="g-recaptcha" data-sitekey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT" data-callback="captchaSubmited"></div>
                 <div class="break" style="margin-bottom: 10px;"></div>
-                <input type="submit" value="PAKA" name="vote" id="paka" class="form-button" disabled style="display: none;">
-                <input type="submit" value="SRAKA" name="vote" id="sraka" class="form-button" disabled style="display: none;">
+                <input type="submit" value="PAKA" name="vote" id="paka" class="form-button" disabled style="display: none;" onclick="setVote('PAKA');">
+                <input type="submit" value="SRAKA" name="vote" id="sraka" class="form-button" disabled style="display: none; " onclick="setVote('SRAKA');">
         
             </form>
         </div>
@@ -42,6 +42,26 @@
             srakaButton.style.display = "block";
             pakaButton.disabled = false;
             srakaButton.disabled = false;
+        }
+
+        function checkCaptcha(event, form) {
+            event.preventDefault();
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (recaptchaResponse.length === 0) {
+                alert("Please complete the CAPTCHA.");
+                return;
+            }
+            form.submit();
+        }
+        
+        // probably the stupidest hotfix i have ever done for a problem that i created
+        function setVote(vote) {
+            const form = document.getElementById("forma");
+            const input = document.createElement("input");
+            input.type = "hidden";  
+            input.name = "vote";
+            input.value = vote;
+            form.appendChild(input);
         }
     </script>
     
