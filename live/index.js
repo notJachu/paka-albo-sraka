@@ -106,7 +106,7 @@ app.post('/', express.urlencoded({ extended: true }), (req, res) => {
     console.error('Invalid vote:', formData.vote);
   }
    // vote has been accepted so timeout is set for 1 hour
-   res.cookie('from-wife', Date.now(), { maxAge: 1000*60 }); // 1 hour
+   res.cookie('from-wife', Date.now(), { maxAge: 1000*60*60}); // 1 hour
    res.redirect('results');
 });
 

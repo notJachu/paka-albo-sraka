@@ -40,14 +40,10 @@
     </div>
 
     <script>
-        function showTimeLeft(){
-            let cookie = document.cookie.split('; ').find(row => row.startsWith('from-wife='));
-            console.log(cookie);
-            if (cookie) {
-                timeGenerated = new Date(parseInt(cookie.split('=')[1]));
-                let timeLeft = 60 * 60 * 1000 - (new Date() - timeGenerated);
+        let timeLeft = 0;
 
-                let message = "";
+        function updateTime(timeLeft){
+            let message = "";
                 if (timeLeft > 0) {
                     let hours = Math.floor(timeLeft / (1000 * 60 * 60));
                     if (hours > 0) {
@@ -62,17 +58,31 @@
                         message += seconds + "s ";
                     }
 
-                    document.getElementById('time').textContent =message;
+                    document.getElementById('time').textContent = message;
                 } else {
                     document.getElementById('time').textContent = "Możesz głosować!";
                 }
+
+                timeLeft = timeLeft - 1000;
+        }
+
+        function showTimeLeft(timeLeft){
+            let cookie = document.cookie.split('; ').find(row => row.startsWith('from-wife='));
+            if (cookie) {
+                timeGenerated = new Date(parseInt(cookie.split('=')[1]));
+                timeLeft = 60 * 60 * 1000 - (new Date() - timeGenerated);
+
+                updateTime(timeLeft);
             } else {
                 document.getElementById('time').textContent = "Możesz głosować!";
             }
         }
 
-        setInterval(showTimeLeft, 1000); // Update every second
-        showTimeLeft(); // Initial call to set the time immediately
+        showTimeLeft(timeLeft);
+        // Set an interval to update the time left every second
+        setInterval(() => {
+            showTimeLeft(timeLeft);
+        }, 1000);
     </script>
 
 </body>
