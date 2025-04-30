@@ -77,6 +77,12 @@ form {
     background-color: #afb2ae;
 }
 
+#skip:hover{
+    box-shadow: inset -3px -3px 5px grey;
+    background-color: #9a9c99;
+    cursor: pointer;
+}
+
 #paka {
     background-color: #3abd06;
 }
