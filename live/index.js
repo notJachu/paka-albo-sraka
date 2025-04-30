@@ -1,6 +1,6 @@
-const { verify } = require('crypto');
 const express = require('express');
 require('dotenv').config();
+const cookieParser = require('cookie-parser');
 const app = express()
 const port = 80
 
@@ -35,8 +35,16 @@ async function saveResults() {
 
 setInterval(saveResults, 5 * 60 * 1000); // Save every 5 minutes
 
+app.use(cookieParser());
+
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/front/index.html');
+
+  if (req.cookies['from-wife']) {
+    res.sendFile(__dirname + '/front/thanks.html');
+  }
+  else {
+    res.sendFile(__dirname + '/front/index.html');
+  }
 });
 
 app.get('/daily', (req, res) => {
@@ -71,7 +79,6 @@ async function verifyCaptcha(captchaResponse) {
 app.post('/', express.urlencoded({ extended: true }), (req, res) => {
   const formData = req.body;
   console.log('Form Data:', formData);
-
   captchaResponse = formData['g-recaptcha-response'];
   if (!captchaResponse) {
     res.status(400).send('Captcha response is missing.');
@@ -83,7 +90,6 @@ app.post('/', express.urlencoded({ extended: true }), (req, res) => {
     return;
   }
 
-  res.redirect('results');
   if (formData.vote === 'PAKA') {
     daily_state.data.paka++;
   } else if (formData.vote === 'SRAKA') {
@@ -91,6 +97,9 @@ app.post('/', express.urlencoded({ extended: true }), (req, res) => {
   } else {
     console.error('Invalid vote:', formData.vote);
   }
+   // vote has been accepted so timeout is set for 1 hour
+   res.cookie('from-wife', Date.now(), { maxAge: 1000*60 }); // 1 hour
+   res.redirect('results');
 });
 
 app.use(express.static('front/static'));
