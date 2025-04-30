@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pakujemy</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+
+<body>
+   
+    <div class="container">
+
+        <h1>PAKA ALBO SRAKA</h1>
+        <div class="break"></div>
+        <div class="card">
+            <h2>Głos już oddany</h2>
+            <div class="break"></div>
+            <p>Dzięki za oddanie głosu</p>
+            <div class="break"></div>
+            <p>Czas do następnego głosu:</p>
+            <div class="break"></div>
+            <p id="time"></p>
+            <div class="break"></div>
+            <a href="results">
+                <button id="skip">
+                    <p>Show Results</p>
+                </button>
+            </a>
+        </div>
+
+
+        <footer>
+            <p>© 2025 <a href="https://github.com/notJachu">notJachu</a></p>
+        </footer>
+
+    </div>
+
+    <script>
+        function showTimeLeft(){
+            let cookie = document.cookie.split('; ').find(row => row.startsWith('from-wife='));
+            console.log(cookie);
+            if (cookie) {
+                timeGenerated = new Date(parseInt(cookie.split('=')[1]));
+                let timeLeft = 60 * 60 * 1000 - (new Date() - timeGenerated);
+
+                let message = "";
+                if (timeLeft > 0) {
+                    let hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                    if (hours > 0) {
+                        message += hours + "h ";
+                    }
+                    let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    if (minutes > 0) {
+                        message += minutes + "m ";
+                    }
+                    let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                    if (seconds > 0) {
+                        message += seconds + "s ";
+                    }
+
+                    document.getElementById('time').textContent =message;
+                } else {
+                    document.getElementById('time').textContent = "Możesz głosować!";
+                }
+            } else {
+                document.getElementById('time').textContent = "Możesz głosować!";
+            }
+        }
+
+        setInterval(showTimeLeft, 1000); // Update every second
+        showTimeLeft(); // Initial call to set the time immediately
+    </script>
+
+</body>
+
+</html>
