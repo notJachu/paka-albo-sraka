@@ -31,18 +31,25 @@ body {
     top: 40%;
 }
 
+/* TODO:
+    - fix units for card so that it works on different pc
+    - remove width and height from card 
+*/
+
 .card {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     background-color: #dfdddd;
     color: #2e2e2e;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 400px;
-    max-height: 300px;
+    max-height: 30rem;
     min-height: 30vh;
     max-width: 100%;
+    min-width: 20rem;
+    padding: 2rem;
     align-items: center;
     justify-content: space-around;
     transition: 2s;
