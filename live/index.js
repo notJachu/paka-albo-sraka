@@ -6,6 +6,7 @@ const port = 80
 
 const save_path ='./results.json';
 const fs = require('fs');
+const { time } = require('console');
 var save_file = require(save_path);
 
 
@@ -20,6 +21,16 @@ var daily_state = {
 function loadResults(){
   daily_state = save_file;
 }
+
+var event = {
+  name: 'SWiM termin 0 2025',
+  time_start: new Date('2025-05-13T22:45:00'),
+  time_end: new Date('2025-05-13T22:47:00'),
+  votes:{
+    paka: 0,
+    sraka: 0,
+  }
+};
 
 async function saveResults() {
   daily_state.timestamp = Date.now();
@@ -47,6 +58,10 @@ app.get('/', (req, res) => {
   }
 });
 
+app.get('/event', (req, res) => {
+  res.json(event);
+});
+
 app.get('/daily', (req, res) => {
   //res.sendFile(__dirname + '/results.json');
   res.json(daily_state);
@@ -64,7 +79,10 @@ app.get('/thanks', (req, res) => {
   res.sendFile(__dirname + '/front/thanks.html');
 });
 
-
+function isEventActive() {
+  const now = new Date();
+  return now >= event.time_start && now <= event.time_end;
+}
 async function verifyCaptcha(captchaResponse) {
   params = new URLSearchParams({
     secret: process.env.CAPTCHA_SECRET_KEY,
@@ -97,11 +115,17 @@ app.post('/', express.urlencoded({ extended: true }), (req, res) => {
     res.status(403).send('Captcha verification failed.');
     return;
   }
-
+  var eventActive = isEventActive();
   if (formData.vote === 'PAKA') {
     daily_state.data.paka++;
+    if(eventActive) {
+      event.votes.paka++;
+    }
   } else if (formData.vote === 'SRAKA') {
     daily_state.data.sraka++;
+    if(eventActive) {
+      event.votes.sraka++;
+    } 
   } else {
     console.error('Invalid vote:', formData.vote);
   }

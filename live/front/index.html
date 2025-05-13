@@ -16,6 +16,8 @@
 
         <h1>PAKA ALBO SRAKA</h1>
         <div class="break"></div>
+        <div class="event"></div>
+        <div class="break"></div>
         <div class="card">
             <form id="forma" method="post" onsubmit="checkCaptcha(event, this);">
                 <div class="g-recaptcha" data-sitekey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT" data-callback="captchaSubmited"></div>
@@ -68,6 +70,31 @@
             input.value = vote;
             form.appendChild(input);
         }
+
+        function loadActiveEvent() {
+            fetch('./event')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    const eventElement = document.querySelector('.event');
+                    let start = new Date(data.time_start);
+                    let end = new Date(data.time_end);
+                    let now = new Date();
+                    let timeLeft = end - now;
+                    let to_begin = start - now;
+                    eventElement.innerHTML = `<h2>${data.name}</h2>`;
+                    if (to_begin > 0) {
+                        eventElement.innerHTML += `<h3>Głosowanie zacznie się za ${Math.floor(to_begin / 1000)} sekund</h3>`;
+                    } else if (timeLeft > 0) {
+                        eventElement.innerHTML += `<h3>Głosowanie trwa do ${end.toLocaleString()}</h3>`;
+                    } else {
+                        eventElement.innerHTML += `<h3>Głosowanie zakończone</h3>`;
+                    }
+                })
+                .catch(error => console.error('Error fetching active event:', error));
+        }
+
+        loadActiveEvent();
     </script>
     
 </body>
