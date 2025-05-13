@@ -6,7 +6,6 @@ const port = 80
 
 const save_path ='./results.json';
 const fs = require('fs');
-const { time } = require('console');
 var save_file = require(save_path);
 
 
