@@ -23,8 +23,9 @@ function loadResults(){
 
 var event = {
   name: 'SWiM termin 0 2025',
-  time_start: new Date('2025-05-13T22:45:00'),
-  time_end: new Date('2025-05-13T22:47:00'),
+  time_start: new Date('2025-05-14T17:19:00'),
+  time_end: new Date('2025-05-14T17:23:00'),
+  display_time: 1000 * 60 * 60 * 2,
   votes:{
     paka: 0,
     sraka: 0,

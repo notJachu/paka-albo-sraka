@@ -7,10 +7,24 @@ var timestamp = 0;
 async function fetchData() {
     const response = await fetch('./daily');
     const data = await response.json();
+    const event = await fetch('./event').then(res => res.json());
+    let start = new Date(event.time_start);
+    let end = new Date(event.time_end);
+ 
+    if (start < Date.now() && (end > Date.now() || end > Date.now() - event.display_time)) {
+      console.log('Event is active');
+         pakaCounter = event.votes.paka;
+        srakaCounter = event.votes.sraka;
+        const title = document.getElementById('result_box');
+        title.innerHTML = event.name;
+        return;
+    }
     pakaCounter = data.data.paka;
     srakaCounter = data.data.sraka;
     timestamp = data.timestamp;
+        
 }
+
 
 fetchData().then(() => {
   new Chart(ctx, {

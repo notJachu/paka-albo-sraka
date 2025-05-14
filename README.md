@@ -16,7 +16,9 @@ FIRST FUNCIONAL BUILD IS OUT NOW
 - backend improvements:
     - MVC?
     - split file structure
+    - async processing
 - frontend improvements:
     - better planed UI/UX
+    - responsive UI
     - using frontend framework not plain html/css
 
