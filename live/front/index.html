@@ -90,7 +90,7 @@
                     } else if (timeLeft > 0) {
                         eventElement.innerHTML = `<h2>${data.name}</h2>`;
                         eventElement.innerHTML += `<h3>Głosowanie trwa do ${end.toLocaleString()}</h3>`;
-                    } else if (now - end < 1000 * 60 * 60) {
+                    } else if (now - end < event.display_time) {
                         eventElement.innerHTML = `<h2>${data.name}</h2>`;
                         eventElement.innerHTML += `<h3>Głosowanie zakończone</h3>`;
                     }
