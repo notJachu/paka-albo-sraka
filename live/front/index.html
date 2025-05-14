@@ -75,19 +75,23 @@
             fetch('./event')
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    //console.log(data);
                     const eventElement = document.querySelector('.event');
                     let start = new Date(data.time_start);
                     let end = new Date(data.time_end);
                     let now = new Date();
                     let timeLeft = end - now;
                     let to_begin = start - now;
-                    eventElement.innerHTML = `<h2>${data.name}</h2>`;
                     if (to_begin > 0) {
-                        eventElement.innerHTML += `<h3>Głosowanie zacznie się za ${Math.floor(to_begin / 1000)} sekund</h3>`;
+                        if (to_begin < 1000 * 60 * 60){
+                            eventElement.innerHTML = `<h2>${data.name}</h2>`;
+                            eventElement.innerHTML += `<h3>Głosowanie zacznie się za ${Math.floor(to_begin / 1000)} sekund</h3>`;
+                        }
                     } else if (timeLeft > 0) {
+                        eventElement.innerHTML = `<h2>${data.name}</h2>`;
                         eventElement.innerHTML += `<h3>Głosowanie trwa do ${end.toLocaleString()}</h3>`;
-                    } else {
+                    } else if (now - end < 1000 * 60 * 60) {
+                        eventElement.innerHTML = `<h2>${data.name}</h2>`;
                         eventElement.innerHTML += `<h3>Głosowanie zakończone</h3>`;
                     }
                 })
