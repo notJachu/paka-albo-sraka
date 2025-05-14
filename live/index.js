@@ -49,7 +49,10 @@ setInterval(saveResults, 5 * 60 * 1000); // Save every 5 minutes
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
-
+  if (req.hostname === "immanence.pl"){
+    res.sendStatus(404);
+    return;
+  }
   if (req.cookies['from-wife']) {
     res.redirect('/thanks');
   }
@@ -59,19 +62,35 @@ app.get('/', (req, res) => {
 });
 
 app.get('/event', (req, res) => {
+  if (req.hostname === "immanence.pl"){
+    res.sendStatus(404);
+    return;
+  }
   res.json(event);
 });
 
 app.get('/daily', (req, res) => {
+  if (req.hostname === "immanence.pl"){
+    res.sendStatus(404);
+    return;
+  }
   //res.sendFile(__dirname + '/results.json');
   res.json(daily_state);
 });
 
 app.get('/results', (req, res) => {
+  if (req.hostname === "immanence.pl"){
+    res.sendStatus(404);
+    return;
+  }
   res.sendFile(__dirname + '/front/results.html');
 });
 
 app.get('/thanks', (req, res) => {
+  if (req.hostname === "immanence.pl"){
+    res.sendStatus(404);
+    return;
+  }
   if (!req.cookies['from-wife']) {
     res.redirect('/');
     return;
@@ -103,8 +122,12 @@ async function verifyCaptcha(captchaResponse) {
 }
 
 app.post('/', express.urlencoded({ extended: true }), (req, res) => {
+  if (req.hostname === "immanence.pl"){
+    res.sendStatus(404);
+    return;
+  }
   const formData = req.body;
-  console.log('Form Data:', formData);
+  //console.log('Form Data:', formData);
   captchaResponse = formData['g-recaptcha-response'];
   if (!captchaResponse) {
     res.status(400).send('Captcha response is missing.');
