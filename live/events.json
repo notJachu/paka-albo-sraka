@@ -1,0 +1,14 @@
+{
+  "events": [
+    {
+      "name": "SWiM termin 0 2025",
+      "time_start": "2025-05-15T12:30:00",
+      "time_end": "2025-05-15T18:00:00",
+      "display_time": 7200000,
+      "votes": {
+        "paka": 116,
+        "sraka": 13
+      }
+    }
+  ]
+}
