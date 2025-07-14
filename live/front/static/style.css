@@ -47,7 +47,7 @@ body {
     overflow: hidden;
     max-height: 30rem;
     min-height: 30vh;
-    max-width: 100%;
+    max-width: 90vw;
     min-width: 20rem;
     padding: 2rem;
     align-items: center;
@@ -56,12 +56,12 @@ body {
 }
 
 form {
-    width: 400px;
     justify-content: space-evenly;
     align-items: center;
+    -webkit-align-items: center;
     display: flex;
+    display: -webkit-flex;
     flex-wrap: wrap;
-    align-items: center;
 }
 
 .form-button{
@@ -127,4 +127,15 @@ footer {
 a {
     color: whitesmoke;
     text-decoration: none;
+}
+
+@media (max-width: 440px) {
+    #skip{
+        margin-top: 5px;
+    }
+
+    .card {
+        padding: 5px;
+        max-width: 90vw;
+    }
 }
