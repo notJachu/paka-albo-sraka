@@ -1,0 +1,141 @@
+body {
+    background-color: #3d3c3c;
+
+    text-align: center;
+    color: whitesmoke;
+    font-family: Arial, Helvetica, sans-serif;
+
+
+    margin: 0;
+    padding: 0; 
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    min-height: 100vh;
+
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: baseline;
+    height: 100%;
+    width: 100vw;
+    min-height: 50vh;
+    top: 40%;
+}
+
+/* TODO:
+    - fix units for card so that it works on different pc
+    - remove width and height from card 
+*/
+
+.card {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    background-color: #dfdddd;
+    color: #2e2e2e;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-height: 30rem;
+    min-height: 30vh;
+    max-width: 90vw;
+    min-width: 20rem;
+    padding: 2rem;
+    align-items: center;
+    justify-content: space-around;
+    transition: 2s;
+}
+
+form {
+    justify-content: space-evenly;
+    align-items: center;
+    -webkit-align-items: center;
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+}
+
+.form-button{
+    width: 5rem;
+    padding: 10px;
+    border-radius: 3rem;
+    text-align: center;
+    font-size: large;
+    border-style: hidden;
+    box-shadow: -3px 3px 5px grey;
+}
+
+#skip{
+    width: 20rem;
+    padding: 10px;
+    border-radius: 3rem;
+    text-align: center;
+    font-size: large;
+    border-style: hidden;
+    box-shadow: -3px 3px 5px grey;
+    background-color: #afb2ae;
+}
+
+#skip:hover{
+    box-shadow: inset -3px -3px 5px grey;
+    background-color: #9a9c99;
+    cursor: pointer;
+}
+
+#paka {
+    background-color: #3abd06;
+}
+
+#paka:hover {
+    background-color: #2f9706;
+}
+
+#sraka {
+    background-color: #e63737;
+}
+
+#sraka:hover {
+    background-color: #bb0d0d;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    padding-bottom: 10px;
+    width: 100%;
+    height: auto;
+    background-color: #2e2e2e;
+    color: white;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+a {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+@media (max-width: 440px) {
+    #skip{
+        margin-top: 5px;
+    }
+
+    .card {
+        padding: 5px;
+        max-width: 90vw;
+    }
+}

@@ -1,10 +1,106 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>App</title>
-  </head>
-  <body>
-    {{ message }}
-  </body>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pakujemy</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+
+<body>
+   
+    <div class="container">
+
+        <h1>PAKA ALBO SRAKA</h1>
+        <div class="break"></div>
+        <div class="event"></div>
+        <div class="break"></div>
+        <div class="card">
+            <form id="forma" method="post" onsubmit="checkCaptcha(event, this);">
+                <div class="g-recaptcha" data-sitekey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT" data-callback="captchaSubmited"></div>
+                <div class="break" style="margin-bottom: 10px;"></div>
+                <input type="submit" value="PAKA" name="vote" id="paka" class="form-button" disabled style="display: none;" onclick="setVote('PAKA');">
+                <input type="submit" value="SRAKA" name="vote" id="sraka" class="form-button" disabled style="display: none; " onclick="setVote('SRAKA');">
+        
+            </form>
+            <a href="results">
+            <button id="skip">
+                <p>Show Results</p>
+            </button>
+            </a>
+        </div>
+
+
+        <footer>
+            <p>© 2025 <a href="https://github.com/notJachu">notJachu</a></p>
+        </footer>
+
+    </div>
+
+    <script>
+        function captchaSubmited() {
+            console.log("Captcha submited!");
+            const pakaButton = document.getElementById("paka");
+            const srakaButton = document.getElementById("sraka");
+            pakaButton.style.display = "block";
+            srakaButton.style.display = "block";
+            pakaButton.disabled = false;
+            srakaButton.disabled = false;
+        }
+
+        function checkCaptcha(event, form) {
+            event.preventDefault();
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (recaptchaResponse.length === 0) {
+                alert("Please complete the CAPTCHA.");
+                return;
+            }
+            form.submit();
+        }
+        
+        // probably the stupidest hotfix i have ever done for a problem that i created
+        function setVote(vote) {
+            const form = document.getElementById("forma");
+            const input = document.createElement("input");
+            input.type = "hidden";  
+            input.name = "vote";
+            input.value = vote;
+            form.appendChild(input);
+        }
+
+        function loadActiveEvent() {
+            fetch('./event')
+                .then(response => response.json())
+                .then(data => {
+                    //console.log(data);
+                    const eventElement = document.querySelector('.event');
+                    let start = new Date(data.time_start);
+                    let end = new Date(data.time_end);
+                    let now = new Date();
+                    let timeLeft = end - now;
+                    let to_begin = start - now;
+                    if (to_begin > 0) {
+                        if (to_begin < 1000 * 60 * 60){
+                            eventElement.innerHTML = `<h2>${data.name}</h2>`;
+                            eventElement.innerHTML += `<h3>Głosowanie zacznie się za ${Math.floor(to_begin / 1000)} sekund</h3>`;
+                        }
+                    } else if (timeLeft > 0) {
+                        eventElement.innerHTML = `<h2>${data.name}</h2>`;
+                        eventElement.innerHTML += `<h3>Głosowanie trwa do ${end.toLocaleString()}</h3>`;
+                    } else if (now - end < event.display_time) {
+                        eventElement.innerHTML = `<h2>${data.name}</h2>`;
+                        eventElement.innerHTML += `<h3>Głosowanie zakończone</h3>`;
+                    }
+                })
+                .catch(error => console.error('Error fetching active event:', error));
+        }
+
+        loadActiveEvent();
+    </script>
+    
+</body>
+
 </html>
