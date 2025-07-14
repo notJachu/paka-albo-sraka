@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Render } from '@nestjs/common';
 import { VoteService } from './vote.service';
 import { ResultsService } from './results.service';
 
@@ -11,6 +11,12 @@ export class VoteController {
 export class ResultsController {
   constructor(private readonly resulsService: ResultsService) {}
 
+  @Get()
+  @Render('results')
+  results() {
+    // Logic to fetch and render results
+    return { title: 'Poll Results' };
+  }
   // Add methods to handle results display
   // e.g., @Get() to fetch and display results
 }
