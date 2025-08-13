@@ -19,7 +19,7 @@
         <div class="event"></div>
         <div class="break"></div>
         <div class="card">
-            <form id="forma" method="post" onsubmit="checkCaptcha(event, this);">
+            <form id="forma" method="post" onsubmit="checkCaptcha(event, this);" action="/vote">
                 <div class="g-recaptcha" data-sitekey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT" data-callback="captchaSubmited"></div>
                 <div class="break" style="margin-bottom: 10px;"></div>
                 <input type="submit" value="PAKA" name="vote" id="paka" class="form-button" disabled style="display: none;" onclick="setVote('PAKA');">

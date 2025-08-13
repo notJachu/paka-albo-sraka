@@ -12,18 +12,22 @@ TODO:
 */
 @Injectable()
 export class VoteService {
+    private daily_state = { data: { paka: 0, sraka: 0 } };
     getVotes() {
         // Logic to fetch and return votes
         return {
-        data: {
-            paka: 4,
-            sraka: 0,
-        },
+        data: this.daily_state.data,
         timestamp: Date.now(),
         };
     }
 
-    submitVote() {
-        
+    submitVote(req: any) {
+        const formData = req.body;
+        //console.log('Form data received:', formData);
+        if (formData.vote === 'PAKA') {
+            this.daily_state.data.paka++;
+        } else if (formData.vote === 'SRAKA') {
+            this.daily_state.data.sraka++;
+        }
     }
 }

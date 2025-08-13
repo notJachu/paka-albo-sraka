@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Render, Redirect } from '@nestjs/common';
+import { Controller, Get, Post, Render, Redirect, Req, Res } from '@nestjs/common';
 import { VoteService } from './vote.service';
 import { ResultsService } from './results.service';
 
@@ -13,8 +13,8 @@ export class VoteController {
 
   @Post()
   @Redirect('/results', 302)
-  submitVote() {
-    return this.voteService.submitVote();
+  submitVote(@Req() req: Request, @Res() res: Response) {
+    return this.voteService.submitVote(req);
   }
 }
 
