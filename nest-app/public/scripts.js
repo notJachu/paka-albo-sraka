@@ -12,8 +12,9 @@ const title = document.getElementById('result_box');
 
 
 async function fetchData() {
-    const response = await fetch('./daily');
+    const response = await fetch('./vote');
     const data = await response.json();
+    console.log(data);
     const event = await fetch('./event').then(res => res.json());
     let start = new Date(event.time_start);
     let end = new Date(event.time_end);

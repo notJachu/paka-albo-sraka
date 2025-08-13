@@ -11,4 +11,19 @@ TODO:
 - 
 */
 @Injectable()
-export class VoteService {}
+export class VoteService {
+    getVotes() {
+        // Logic to fetch and return votes
+        return {
+        data: {
+            paka: 4,
+            sraka: 0,
+        },
+        timestamp: Date.now(),
+        };
+    }
+
+    submitVote() {
+        
+    }
+}
