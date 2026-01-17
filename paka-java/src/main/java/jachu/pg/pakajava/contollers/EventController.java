@@ -1,6 +1,7 @@
 package jachu.pg.pakajava.contollers;
 
 
+import jachu.pg.pakajava.entities.DTOs.EventCollectionDto;
 import jachu.pg.pakajava.entities.Event;
 import jachu.pg.pakajava.repositories.EventRepository;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,17 @@ public class EventController {
     }
 
     @GetMapping("")
-    public List<Event> findAll() {
-        return null;
+    public List<EventCollectionDto> findAll() {
+        List<Event> events = eventRepository.findAll();
+        List<EventCollectionDto> eventDtos = events.stream()
+                .map(event -> new EventCollectionDto(
+                        event.getUuid(),
+                        event.getName(),
+                        event.getTime_start().toString(),
+                        event.getTime_end().toString()
+                ))
+                .toList();
+        return eventDtos;
     }
 
     @GetMapping("/{id}")
