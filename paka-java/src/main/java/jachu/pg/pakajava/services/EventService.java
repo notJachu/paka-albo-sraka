@@ -32,4 +32,8 @@ public class EventService {
         eventRepository.save(event);
         return event.getUuid();
     }
+
+    public void deleteAllEvents() {
+        eventRepository.deleteAll();
+    }
 }
