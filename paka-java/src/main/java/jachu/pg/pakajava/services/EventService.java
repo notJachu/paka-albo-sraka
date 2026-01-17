@@ -23,6 +23,7 @@ public class EventService {
 
     public UUID createEvent(String name, String description, LocalDateTime timeStart, LocalDateTime timeEnd) {
         Event event =  Event.builder()
+                .uuid(UUID.randomUUID())
                 .name(name)
                 .description(description)
                 .time_create(LocalDateTime.now())
