@@ -17,4 +17,6 @@ public class EventReadDto {
     String eventDescription;
     String timeStart;
     String timeEnd;
+    int votesPaka;
+    int votesSraka;
 }

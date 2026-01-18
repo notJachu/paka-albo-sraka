@@ -2,8 +2,10 @@ package jachu.pg.pakajava.contollers;
 
 
 import jachu.pg.pakajava.entities.DTOs.EventCollectionDto;
+import jachu.pg.pakajava.entities.DTOs.EventReadDto;
 import jachu.pg.pakajava.entities.Event;
 import jachu.pg.pakajava.repositories.EventRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +35,21 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public Event findById(@PathVariable UUID id) {
-        return null;
+    public ResponseEntity<EventReadDto> findById(@PathVariable UUID id) {
+        Event event = eventRepository.findById(id).orElse(null);
+        if (event == null) {
+            return ResponseEntity.notFound().build();
+        }
+        EventReadDto eventDto = new EventReadDto(
+                event.getUuid(),
+                event.getName(),
+                event.getDescription(),
+                event.getTime_start().toString(),
+                event.getTime_end().toString(),
+                event.getVotes_paka(),
+                event.getVotes_sraka()
+        );
+        return ResponseEntity.ok(eventDto);
     }
 
 
