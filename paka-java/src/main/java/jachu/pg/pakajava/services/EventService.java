@@ -21,7 +21,7 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public UUID createEvent(String name, String description, LocalDateTime timeStart, LocalDateTime timeEnd) {
+    public Event createEvent(String name, String description, LocalDateTime timeStart, LocalDateTime timeEnd) {
         Event event =  Event.builder()
                 .uuid(UUID.randomUUID())
                 .name(name)
@@ -31,7 +31,7 @@ public class EventService {
                 .time_end(timeEnd)
                 .build();
         eventRepository.save(event);
-        return event.getUuid();
+        return event;
     }
 
     public void deleteAllEvents() {
