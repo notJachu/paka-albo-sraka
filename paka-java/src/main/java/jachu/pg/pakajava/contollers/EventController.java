@@ -2,12 +2,15 @@ package jachu.pg.pakajava.contollers;
 
 
 import jachu.pg.pakajava.entities.DTOs.EventCollectionDto;
+import jachu.pg.pakajava.entities.DTOs.EventCreateUpdateDto;
 import jachu.pg.pakajava.entities.DTOs.EventReadDto;
 import jachu.pg.pakajava.entities.Event;
 import jachu.pg.pakajava.repositories.EventRepository;
+import jachu.pg.pakajava.services.EventService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,9 +18,11 @@ import java.util.UUID;
 @RequestMapping("/api/events")
 public class EventController {
     private final EventRepository eventRepository;
+    private final EventService eventService;
 
-    public EventController(EventRepository eventRepository) {
+    public EventController(EventRepository eventRepository, EventService eventService) {
         this.eventRepository = eventRepository;
+        this.eventService = eventService;
     }
 
     @GetMapping("")
@@ -53,10 +58,27 @@ public class EventController {
     }
 
 
-    // TODO: change Event to EventCreateUpdateDto
     @PostMapping("")
-    public Event createEvent(@RequestBody Event event) {
-        return null;
+    public ResponseEntity<EventCollectionDto> createEvent(@RequestBody EventCreateUpdateDto eventDto) {
+        try {
+            LocalDateTime.parse(eventDto.getTimeStart());
+            LocalDateTime.parse(eventDto.getTimeEnd());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+        Event event = eventService.createEvent(
+                eventDto.getEventName(),
+                eventDto.getEventDescription(),
+                LocalDateTime.parse(eventDto.getTimeStart()),
+                LocalDateTime.parse(eventDto.getTimeEnd())
+        );
+        EventCollectionDto createdEventDto = new EventCollectionDto(
+                event.getUuid(),
+                event.getName(),
+                event.getTime_start().toString(),
+                event.getTime_end().toString()
+        );
+        return ResponseEntity.ok(createdEventDto);
     }
 
     // Handle voting form submission
