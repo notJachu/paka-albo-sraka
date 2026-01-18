@@ -7,6 +7,8 @@ import jachu.pg.pakajava.entities.DTOs.EventReadDto;
 import jachu.pg.pakajava.entities.Event;
 import jachu.pg.pakajava.repositories.EventRepository;
 import jachu.pg.pakajava.services.EventService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,10 +85,20 @@ public class EventController {
 
     // Handle voting form submission
     @PostMapping("/{id}/vote")
-    public ResponseEntity<Void> voteForEvent(@PathVariable UUID id, @RequestParam String vote) {
+    public ResponseEntity<Void> voteForEvent(@PathVariable UUID id,
+                                             @RequestParam String vote,
+                                             @CookieValue(value = "has_voted", required = false)
+                                                 String hasVoted,
+                                             HttpServletResponse response) {
         Event event = eventRepository.findById(id).orElse(null);
+
+
         if (event == null) {
             return ResponseEntity.notFound().build();
+        }
+
+        if (hasVoted != null && hasVoted.equals("true")) {
+            return ResponseEntity.status(403).build();
         }
 
         if (vote.equals("paka")) {
@@ -98,6 +110,14 @@ public class EventController {
         }
 
         eventRepository.save(event);
+
+        Cookie cookie = new Cookie("has_voted", "true");
+        cookie.setPath("/");
+        cookie.setMaxAge(3600);
+        cookie.setHttpOnly(true);
+
+        response.addCookie(cookie);
+
         return ResponseEntity.ok().build();
     }
 
