@@ -83,8 +83,22 @@ public class EventController {
 
     // Handle voting form submission
     @PostMapping("/{id}/vote")
-    public Event voteForEvent(@PathVariable UUID id, @RequestParam String vote) {
-        return null;
+    public ResponseEntity<Void> voteForEvent(@PathVariable UUID id, @RequestParam String vote) {
+        Event event = eventRepository.findById(id).orElse(null);
+        if (event == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (vote.equals("paka")) {
+            event.setVotes_paka(event.getVotes_paka() + 1);
+        } else if (vote.equals("sraka")) {
+            event.setVotes_sraka(event.getVotes_sraka() + 1);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+
+        eventRepository.save(event);
+        return ResponseEntity.ok().build();
     }
 
 }
