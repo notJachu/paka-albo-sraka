@@ -6,7 +6,9 @@ import jachu.pg.pakajava.entities.DTOs.EventCreateUpdateDto;
 import jachu.pg.pakajava.entities.DTOs.EventReadDto;
 import jachu.pg.pakajava.entities.Event;
 import jachu.pg.pakajava.repositories.EventRepository;
+import jachu.pg.pakajava.repositories.TimeBucketRepository;
 import jachu.pg.pakajava.services.EventService;
+import jachu.pg.pakajava.services.TimeBucketService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +23,12 @@ import java.util.UUID;
 public class EventController {
     private final EventRepository eventRepository;
     private final EventService eventService;
+    private final TimeBucketService timeBucketService;
 
-    public EventController(EventRepository eventRepository, EventService eventService) {
+    public EventController(EventRepository eventRepository, EventService eventService, TimeBucketService timeBucketService) {
         this.eventRepository = eventRepository;
         this.eventService = eventService;
+        this.timeBucketService = timeBucketService;
     }
 
     @GetMapping("")
@@ -127,12 +131,15 @@ public class EventController {
     }
 
     // Handle voting form submission
+//    TODO: move voting logic to service and only handle request/response in controller
     @PostMapping("/{id}/vote")
     public ResponseEntity<Void> voteForEvent(@PathVariable UUID id,
                                              @RequestParam String vote,
                                              @CookieValue(value = "has_voted", required = false)
                                                  String hasVoted,
                                              HttpServletResponse response) {
+
+        // should probably move to service
         Event event = eventRepository.findById(id).orElse(null);
 
 
@@ -148,8 +155,10 @@ public class EventController {
         // calling repository in controller kinda iffy
         if (vote.equals("paka")) {
             event.incrementVotes_paka();
+            timeBucketService.recordVote(1);
         } else if (vote.equals("sraka")) {
             event.incrementVotes_sraka();
+            timeBucketService.recordVote(-1);
         } else {
             return ResponseEntity.badRequest().build();
         }
