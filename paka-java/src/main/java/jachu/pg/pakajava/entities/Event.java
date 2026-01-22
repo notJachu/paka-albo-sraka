@@ -39,4 +39,12 @@ public class Event {
     private int votes_paka = 0;
     @Column(nullable = false, name = "votes_sraka")
     private int votes_sraka = 0;
+
+    public void incrementVotes_paka() {
+        this.votes_paka++;
+    }
+
+    public void incrementVotes_sraka() {
+        this.votes_sraka++;
+    }
 }

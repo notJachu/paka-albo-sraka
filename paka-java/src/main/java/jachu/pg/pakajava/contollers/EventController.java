@@ -113,6 +113,19 @@ public class EventController {
         return ResponseEntity.ok(updatedEventDto);
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deleteEvent(@PathVariable UUID id) {
+        Event event = eventRepository.findById(id).orElse(null);
+        if (event == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // implement return type for deletion
+        // handle the possibility of deletion fail
+        deleteEvent(id);
+        return ResponseEntity.ok().build();
+    }
+
     // Handle voting form submission
     @PostMapping("/{id}/vote")
     public ResponseEntity<Void> voteForEvent(@PathVariable UUID id,
@@ -131,10 +144,12 @@ public class EventController {
             return ResponseEntity.status(403).build();
         }
 
+        // Consider moving this into event service
+        // calling repository in controller kinda iffy
         if (vote.equals("paka")) {
-            event.setVotes_paka(event.getVotes_paka() + 1);
+            event.incrementVotes_paka();
         } else if (vote.equals("sraka")) {
-            event.setVotes_sraka(event.getVotes_sraka() + 1);
+            event.incrementVotes_sraka();
         } else {
             return ResponseEntity.badRequest().build();
         }
