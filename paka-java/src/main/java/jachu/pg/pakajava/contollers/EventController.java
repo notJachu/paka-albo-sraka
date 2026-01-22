@@ -11,6 +11,10 @@ import jachu.pg.pakajava.services.EventService;
 import jachu.pg.pakajava.services.TimeBucketService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,16 +36,15 @@ public class EventController {
     }
 
     @GetMapping("")
-    public List<EventCollectionDto> findAll() {
-        List<Event> events = eventRepository.findAll();
-        List<EventCollectionDto> eventDtos = events.stream()
-                .map(event -> new EventCollectionDto(
-                        event.getUuid(),
-                        event.getName(),
-                        event.getTime_start().toString(),
-                        event.getTime_end().toString()
-                ))
-                .toList();
+    public Page<EventCollectionDto> findAll(@PageableDefault(size = 10, sort = "name",
+            direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<Event> eventsPage = eventService.findAllPaged(pageable);
+        Page<EventCollectionDto> eventDtos = eventsPage.map(event -> new EventCollectionDto(
+                event.getUuid(),
+                event.getName(),
+                event.getTimeStart().toString(),
+                event.getTimeEnd().toString()
+        ));
         return eventDtos;
     }
 
@@ -55,10 +58,10 @@ public class EventController {
                 event.getUuid(),
                 event.getName(),
                 event.getDescription(),
-                event.getTime_start().toString(),
-                event.getTime_end().toString(),
-                event.getVotes_paka(),
-                event.getVotes_sraka()
+                event.getTimeStart().toString(),
+                event.getTimeEnd().toString(),
+                event.getVotePaka(),
+                event.getVotesSraka()
         );
         return ResponseEntity.ok(eventDto);
     }
@@ -81,8 +84,8 @@ public class EventController {
         EventCollectionDto createdEventDto = new EventCollectionDto(
                 event.getUuid(),
                 event.getName(),
-                event.getTime_start().toString(),
-                event.getTime_end().toString()
+                event.getTimeStart().toString(),
+                event.getTimeEnd().toString()
         );
         return ResponseEntity.ok(createdEventDto);
     }
@@ -111,8 +114,8 @@ public class EventController {
         EventCollectionDto updatedEventDto = new EventCollectionDto(
                 updatedEvent.getUuid(),
                 updatedEvent.getName(),
-                updatedEvent.getTime_start().toString(),
-                updatedEvent.getTime_end().toString()
+                updatedEvent.getTimeStart().toString(),
+                updatedEvent.getTimeEnd().toString()
         );
         return ResponseEntity.ok(updatedEventDto);
     }

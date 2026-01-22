@@ -29,22 +29,22 @@ public class Event {
     private String description;
 
     @Column(nullable = false, name = "time_created")
-    private LocalDateTime time_create;
+    private LocalDateTime timeCreate;
     @Column(nullable = false, name = "time_start")
-    private LocalDateTime time_start;
+    private LocalDateTime timeStart;
     @Column(nullable = false, name = "time_end")
-    private LocalDateTime time_end;
+    private LocalDateTime timeEnd;
 
     @Column(nullable = false, name = "votes_paka")
-    private int votes_paka = 0;
+    private int votePaka = 0;
     @Column(nullable = false, name = "votes_sraka")
-    private int votes_sraka = 0;
+    private int votesSraka = 0;
 
     public void incrementVotes_paka() {
-        this.votes_paka++;
+        this.votePaka++;
     }
 
     public void incrementVotes_sraka() {
-        this.votes_sraka++;
+        this.votesSraka++;
     }
 }

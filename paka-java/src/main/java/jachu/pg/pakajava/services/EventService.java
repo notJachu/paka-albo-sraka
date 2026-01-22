@@ -5,6 +5,8 @@ import jachu.pg.pakajava.entities.Event;
 import jachu.pg.pakajava.repositories.EventRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,7 +18,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
 
-    @Autowired
+
     public EventService(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
@@ -26,9 +28,9 @@ public class EventService {
                 .uuid(UUID.randomUUID())
                 .name(name)
                 .description(description)
-                .time_create(LocalDateTime.now())
-                .time_start(timeStart)
-                .time_end(timeEnd)
+                .timeCreate(LocalDateTime.now())
+                .timeStart(timeStart)
+                .timeEnd(timeEnd)
                 .build();
         eventRepository.save(event);
         return event;
@@ -40,8 +42,8 @@ public class EventService {
 
         event.setName(name);
         event.setDescription(description);
-        event.setTime_start(timeStart);
-        event.setTime_end(timeEnd);
+        event.setTimeStart(timeStart);
+        event.setTimeEnd(timeEnd);
         eventRepository.save(event); // may be redundant due to transactional context
         return event;
     }
@@ -52,5 +54,9 @@ public class EventService {
 
     public void deleteAllEvents() {
         eventRepository.deleteAll();
+    }
+
+    public Page<Event> findAllPaged(Pageable pageable) {
+        return eventRepository.findAll(pageable);
     }
 }
