@@ -2,6 +2,7 @@ package jachu.pg.pakajava.contollers;
 
 import jachu.pg.pakajava.entities.DTOs.TimeBucketCollectionDto;
 import jachu.pg.pakajava.services.TimeBucketService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,6 +78,22 @@ public class TimeBucketController {
         return buckets;
     }
 
+    @GetMapping("/current")
+    public ResponseEntity<TimeBucketCollectionDto> getCurrentDayBucket() {
+        var bucket = timeBucketService.findByDate(java.time.LocalDate.now());
+
+        if (bucket == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        var dto = new TimeBucketCollectionDto(
+                bucket.getStatDate().toString(),
+                bucket.getVotes_paka(),
+                bucket.getVotes_sraka()
+        );
+
+        return ResponseEntity.ok(dto);
+    }
 }
 /*
     BUCKETS
