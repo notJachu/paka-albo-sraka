@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -27,9 +26,6 @@ public class TimeBucket {
 
     @Builder.Default
     private LocalDate statDate =  LocalDate.now();
-
-    @Column(nullable = false, name = "date")
-    private LocalDateTime statTime = LocalDateTime.now();
 
     @Column(nullable = false, name = "votes_paka")
     private int votes_paka = 0;
