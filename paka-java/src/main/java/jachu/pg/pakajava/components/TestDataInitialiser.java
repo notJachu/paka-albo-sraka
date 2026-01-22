@@ -2,12 +2,14 @@ package jachu.pg.pakajava.components;
 
 import jachu.pg.pakajava.entities.Event;
 import jachu.pg.pakajava.entities.TimeBucket;
+import jachu.pg.pakajava.repositories.TimeBucketRepository;
 import jachu.pg.pakajava.services.EventService;
 import jachu.pg.pakajava.services.TimeBucketService;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -15,10 +17,12 @@ import java.util.UUID;
 public class TestDataInitialiser {
     private final EventService eventService;
     private final TimeBucketService timeBucketService;
+    private final TimeBucketRepository timeBucketRepository;
 
-    public TestDataInitialiser(EventService eventService, TimeBucketService timeBucketService) {
+    public TestDataInitialiser(EventService eventService, TimeBucketService timeBucketService, TimeBucketRepository timeBucketRepository) {
         this.eventService = eventService;
         this.timeBucketService = timeBucketService;
+        this.timeBucketRepository = timeBucketRepository;
     }
 
     @PostConstruct
@@ -33,6 +37,23 @@ public class TestDataInitialiser {
 
         TimeBucket todayBucket = timeBucketService.findByDate(java.time.LocalDate.now());
         System.out.println("Today's TimeBucket - Paka votes: " + todayBucket.getVotes_paka() + ", Sraka votes: " + todayBucket.getVotes_sraka());
+
+//        test code - should be removed
+        TimeBucket timeBucket = TimeBucket.builder()
+                .id(UUID.randomUUID())
+                .statDate(LocalDate.now().minusDays(2))
+                .votes_paka(1)
+                .votes_sraka(0)
+                .build();
+        timeBucketRepository.save(timeBucket);
+
+        TimeBucket timeBucket2 = TimeBucket.builder()
+                .id(UUID.randomUUID())
+                .statDate(LocalDate.now().minusDays(5))
+                .votes_paka(1)
+                .votes_sraka(100)
+                .build();
+        timeBucketRepository.save(timeBucket2);
     }
 
     @PreDestroy

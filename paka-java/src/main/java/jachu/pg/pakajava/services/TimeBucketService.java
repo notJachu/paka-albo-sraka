@@ -56,4 +56,8 @@ public class TimeBucketService {
     public List<TimeBucket> findBetween(LocalDate startDate, LocalDate endDate) {
         return timeBucketRepository.findByStatDateBetween(startDate, endDate);
     }
+
+    public List<TimeBucket> findAll() {
+        return timeBucketRepository.findAll();
+    }
 }
