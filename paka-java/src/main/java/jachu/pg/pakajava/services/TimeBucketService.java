@@ -4,6 +4,7 @@ import jachu.pg.pakajava.entities.TimeBucket;
 import jachu.pg.pakajava.repositories.TimeBucketRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.Tuple;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +24,7 @@ public class TimeBucketService {
     public void recordVote(int vote){
         LocalDate localDate = LocalDate.now();
 
+        System.out.println("Recording vote " + vote + " for date " + localDate);
         int rowsUpdated = 0;
         if(vote == 1){
             rowsUpdated = timeBucketRepository.incrementVotesPaka(localDate);
@@ -39,6 +41,12 @@ public class TimeBucketService {
                     .build();
             timeBucketRepository.save(timeBucket);
         }
+    }
+
+    public Tuple<Integer, Integer> getTotalVotes(){
+        int pakaVotes = timeBucketRepository.getVotesPaka();
+        int srakaVotes = timeBucketRepository.getVotesSraka();
+        return new Tuple<>(pakaVotes, srakaVotes);
     }
 
     public TimeBucket findByDate(LocalDate date) {
