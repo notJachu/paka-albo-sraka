@@ -4,6 +4,7 @@ import jachu.pg.pakajava.entities.DTOs.TimeBucketCollectionDto;
 import jachu.pg.pakajava.services.TimeBucketService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,15 +20,60 @@ public class TimeBucketController {
     }
 
     @GetMapping("")
-    public List<TimeBucketCollectionDto> getTimeBuckets() {
-        List<TimeBucketCollectionDto> buckets = timeBucketService.findAll().stream().map(
-                bucket -> new TimeBucketCollectionDto(
-                        bucket.getStatDate().toString(),
-                        bucket.getVotes_paka(),
-                        bucket.getVotes_sraka()
-                )
-        ).toList();
+    public List<TimeBucketCollectionDto> getTimeBuckets(@RequestParam(required = false, value = "from") String from,
+                                                        @RequestParam(required = false, value = "to") String to,
+                                                        @RequestParam(required = false, value = "date") String date) {
 
+        List<TimeBucketCollectionDto> buckets;
+
+        // giving list of len = 1 to keep return type consistent
+        if (date != null){
+
+            try {
+                java.time.LocalDate.parse(date);
+            } catch (Exception e){
+                return List.of();
+            }
+            var bucket = timeBucketService.findByDate(java.time.LocalDate.parse(date));
+
+            if (bucket == null){
+                return List.of();
+            }
+
+            buckets = List.of(new TimeBucketCollectionDto(
+                    bucket.getStatDate().toString(),
+                    bucket.getVotes_paka(),
+                    bucket.getVotes_sraka()
+            ));
+        }
+        else if (from != null && to != null){
+            try {
+                java.time.LocalDate.parse(from);
+                java.time.LocalDate.parse(to);
+            } catch (Exception e){
+                return List.of();
+            }
+            buckets = timeBucketService.findBetween(
+                    java.time.LocalDate.parse(from),
+                    java.time.LocalDate.parse(to)
+            ).stream().map(
+                    bucket -> new TimeBucketCollectionDto(
+                            bucket.getStatDate().toString(),
+                            bucket.getVotes_paka(),
+                            bucket.getVotes_sraka()
+                    )
+            ).toList();
+        }
+        else {
+            // list all buckets
+            buckets = timeBucketService.findAll().stream().map(
+                    bucket -> new TimeBucketCollectionDto(
+                            bucket.getStatDate().toString(),
+                            bucket.getVotes_paka(),
+                            bucket.getVotes_sraka()
+                    )
+            ).toList();
+        }
         return buckets;
     }
 
