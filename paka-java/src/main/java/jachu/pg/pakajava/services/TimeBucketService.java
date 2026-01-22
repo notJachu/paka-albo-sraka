@@ -49,6 +49,15 @@ public class TimeBucketService {
         return new Tuple<>(pakaVotes, srakaVotes);
     }
 
+    public Tuple<Integer, Integer> getTotalVotesBetween(LocalDate startDate, LocalDate endDate){
+        List<TimeBucket> buckets = timeBucketRepository.findByStatDateBetween(startDate, endDate);
+
+        // TODO: consider changing to use database aggregation instead of summing in application
+        int pakaVotes = buckets.stream().mapToInt(TimeBucket::getVotes_paka).sum();
+        int srakaVotes = buckets.stream().mapToInt(TimeBucket::getVotes_sraka).sum();
+        return new Tuple<>(pakaVotes, srakaVotes);
+    }
+
     public TimeBucket findByDate(LocalDate date) {
         return timeBucketRepository.findByStatDate(date);
     }

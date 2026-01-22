@@ -1,5 +1,6 @@
 package jachu.pg.pakajava.contollers;
 
+import jachu.pg.pakajava.entities.DTOs.TimeBucketAggregateDto;
 import jachu.pg.pakajava.entities.DTOs.TimeBucketCollectionDto;
 import jachu.pg.pakajava.services.TimeBucketService;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class TimeBucketController {
         this.timeBucketService = timeBucketService;
     }
 
+    // BUCKETS
     @GetMapping("")
     public List<TimeBucketCollectionDto> getTimeBuckets(@RequestParam(required = false, value = "from") String from,
                                                         @RequestParam(required = false, value = "to") String to,
@@ -93,6 +95,33 @@ public class TimeBucketController {
         );
 
         return ResponseEntity.ok(dto);
+    }
+
+    // AGGREGATES
+    @GetMapping("/aggregates")
+    public ResponseEntity<TimeBucketAggregateDto> getAggregates(@RequestParam(required = false, value = "from") String from,
+                                                                @RequestParam(required = false, value = "to") String to) {
+
+        TimeBucketAggregateDto result;
+        if (from != null && to != null){
+            try {
+                java.time.LocalDate.parse(from);
+                java.time.LocalDate.parse(to);
+            } catch (Exception e){
+                return ResponseEntity.badRequest().build();
+            }
+            var totals = timeBucketService.getTotalVotesBetween(
+                    java.time.LocalDate.parse(from),
+                    java.time.LocalDate.parse(to)
+            );
+            // TODO: change for something that makes sense
+            result = new TimeBucketAggregateDto(totals._1(), totals._2());
+
+        } else {
+            var totals = timeBucketService.getTotalVotes();
+            result = new TimeBucketAggregateDto(totals._1(), totals._2());
+        }
+        return ResponseEntity.ok(result);
     }
 }
 /*
