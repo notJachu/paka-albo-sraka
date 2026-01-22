@@ -22,7 +22,7 @@ import java.util.UUID;
 public class TimeBucket {
 
     @Id
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
     @Builder.Default
     private LocalDate statDate =  LocalDate.now();
