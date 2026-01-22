@@ -83,6 +83,36 @@ public class EventController {
         return ResponseEntity.ok(createdEventDto);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<EventCollectionDto> updateEvent(@PathVariable UUID id,
+                                                          @RequestBody EventCreateUpdateDto eventDto) {
+        Event event = eventRepository.findById(id).orElse(null);
+        if (event == null) {
+            return ResponseEntity.notFound().build();
+        }
+        try {
+            LocalDateTime.parse(eventDto.getTimeStart());
+            LocalDateTime.parse(eventDto.getTimeEnd());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Event updatedEvent = eventService.updateEvent(
+                id,
+                eventDto.getEventName(),
+                eventDto.getEventDescription(),
+                LocalDateTime.parse(eventDto.getTimeStart()),
+                LocalDateTime.parse(eventDto.getTimeEnd())
+        );
+        EventCollectionDto updatedEventDto = new EventCollectionDto(
+                updatedEvent.getUuid(),
+                updatedEvent.getName(),
+                updatedEvent.getTime_start().toString(),
+                updatedEvent.getTime_end().toString()
+        );
+        return ResponseEntity.ok(updatedEventDto);
+    }
+
     @DeleteMapping
     public ResponseEntity<Void> deleteEvent(@PathVariable UUID id) {
         Event event = eventRepository.findById(id).orElse(null);

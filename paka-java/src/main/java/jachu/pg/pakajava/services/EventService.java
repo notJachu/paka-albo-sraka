@@ -34,6 +34,18 @@ public class EventService {
         return event;
     }
 
+    public Event updateEvent(UUID id, String name, String description, LocalDateTime timeStart, LocalDateTime timeEnd) {
+
+        Event event = eventRepository.findById(id).orElseThrow(() -> new RuntimeException("Event not found"));
+
+        event.setName(name);
+        event.setDescription(description);
+        event.setTime_start(timeStart);
+        event.setTime_end(timeEnd);
+        eventRepository.save(event); // may be redundant due to transactional context
+        return event;
+    }
+
     public void deleteEvent(UUID id){
         eventRepository.deleteById(id);
     }
