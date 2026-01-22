@@ -83,6 +83,19 @@ public class EventController {
         return ResponseEntity.ok(createdEventDto);
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deleteEvent(@PathVariable UUID id) {
+        Event event = eventRepository.findById(id).orElse(null);
+        if (event == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // implement return type for deletion
+        // handle the possibility of deletion fail
+        deleteEvent(id);
+        return ResponseEntity.ok().build();
+    }
+
     // Handle voting form submission
     @PostMapping("/{id}/vote")
     public ResponseEntity<Void> voteForEvent(@PathVariable UUID id,

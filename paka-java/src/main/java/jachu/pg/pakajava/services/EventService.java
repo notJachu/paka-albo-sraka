@@ -34,6 +34,10 @@ public class EventService {
         return event;
     }
 
+    public void deleteEvent(UUID id){
+        eventRepository.deleteById(id);
+    }
+
     public void deleteAllEvents() {
         eventRepository.deleteAll();
     }
