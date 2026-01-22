@@ -101,10 +101,12 @@ public class EventController {
             return ResponseEntity.status(403).build();
         }
 
+        // Consider moving this into event service
+        // calling repository in controller kinda iffy
         if (vote.equals("paka")) {
-            event.setVotes_paka(event.getVotes_paka() + 1);
+            event.incrementVotes_paka();
         } else if (vote.equals("sraka")) {
-            event.setVotes_sraka(event.getVotes_sraka() + 1);
+            event.incrementVotes_sraka();
         } else {
             return ResponseEntity.badRequest().build();
         }
