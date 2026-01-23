@@ -11,6 +11,7 @@ import jachu.pg.pakajava.services.EventService;
 import jachu.pg.pakajava.services.TimeBucketService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,11 +25,16 @@ public class EventController {
     private final EventRepository eventRepository;
     private final EventService eventService;
     private final TimeBucketService timeBucketService;
+    private final UUID defaultEventID;
 
-    public EventController(EventRepository eventRepository, EventService eventService, TimeBucketService timeBucketService) {
+    public EventController(EventRepository eventRepository,
+                           EventService eventService,
+                           TimeBucketService timeBucketService,
+                           @Value("${default-event-uuid}") UUID defaultEventID) {
         this.eventRepository = eventRepository;
         this.eventService = eventService;
         this.timeBucketService = timeBucketService;
+        this.defaultEventID = defaultEventID;
     }
 
     @GetMapping("")
@@ -45,6 +51,11 @@ public class EventController {
         return eventDtos;
     }
 
+//    TODO: implement serving default event to be featured on the landing page
+    @GetMapping("/default")
+    public ResponseEntity<EventReadDto> findDefault() {
+        return findById(defaultEventID);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<EventReadDto> findById(@PathVariable UUID id) {
         Event event = eventRepository.findById(id).orElse(null);
