@@ -2,6 +2,7 @@ package jachu.pg.pakajava.components;
 
 import jachu.pg.pakajava.entities.Event;
 import jachu.pg.pakajava.entities.TimeBucket;
+import jachu.pg.pakajava.repositories.EventRepository;
 import jachu.pg.pakajava.repositories.TimeBucketRepository;
 import jachu.pg.pakajava.services.EventService;
 import jachu.pg.pakajava.services.TimeBucketService;
@@ -9,20 +10,27 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Component;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Value;
 
 @Component
 public class TestDataInitialiser {
     private final EventService eventService;
+    private final EventRepository eventRepository;
     private final TimeBucketService timeBucketService;
     private final TimeBucketRepository timeBucketRepository;
+    private final UUID defaultID;
 
-    public TestDataInitialiser(EventService eventService, TimeBucketService timeBucketService, TimeBucketRepository timeBucketRepository) {
+    public TestDataInitialiser(EventService eventService, TimeBucketService timeBucketService, TimeBucketRepository timeBucketRepository, EventRepository eventRepository,
+                               @Value("${default-event-uuid}")UUID uuid) {
         this.eventService = eventService;
+        this.eventRepository = eventRepository;
         this.timeBucketService = timeBucketService;
         this.timeBucketRepository = timeBucketRepository;
+        this.defaultID = uuid;
     }
 
     @PostConstruct
@@ -32,6 +40,16 @@ public class TestDataInitialiser {
         Event event = eventService.createEvent("Sample Event", "This is a sample event for testing purposes.", start_time, end_time);
         System.out.println("Created event with id " + event.getUuid());
 
+//        Event defaultEvent = eventService.createEvent("default event","default desc",LocalDateTime.now(),LocalDateTime.now());
+        Event eventDefault =  Event.builder()
+                .uuid(defaultID)
+                .name("defaultName")
+                .description("defaultDesc")
+                .time_create(LocalDateTime.now())
+                .time_start(LocalDateTime.now())
+                .time_end(LocalDateTime.now())
+                .build();
+        eventRepository.save(eventDefault);
         timeBucketService.recordVote(1);
         timeBucketService.recordVote(-1);
 

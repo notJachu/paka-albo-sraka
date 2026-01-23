@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,11 +29,16 @@ public class EventController {
     private final EventRepository eventRepository;
     private final EventService eventService;
     private final TimeBucketService timeBucketService;
+    private final UUID defaultEventID;
 
-    public EventController(EventRepository eventRepository, EventService eventService, TimeBucketService timeBucketService) {
+    public EventController(EventRepository eventRepository,
+                           EventService eventService,
+                           TimeBucketService timeBucketService,
+                           @Value("${default-event-uuid}") UUID defaultEventID) {
         this.eventRepository = eventRepository;
         this.eventService = eventService;
         this.timeBucketService = timeBucketService;
+        this.defaultEventID = defaultEventID;
     }
 
     @GetMapping("")
@@ -48,6 +54,11 @@ public class EventController {
         return eventDtos;
     }
 
+//    TODO: implement serving default event to be featured on the landing page
+    @GetMapping("/default")
+    public ResponseEntity<EventReadDto> findDefault() {
+        return findById(defaultEventID);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<EventReadDto> findById(@PathVariable UUID id) {
         Event event = eventRepository.findById(id).orElse(null);
@@ -58,10 +69,10 @@ public class EventController {
                 event.getUuid(),
                 event.getName(),
                 event.getDescription(),
-                event.getTimeStart().toString(),
-                event.getTimeEnd().toString(),
-                event.getVotePaka(),
-                event.getVotesSraka()
+                event.getTime_start().toString(),
+                event.getTime_end().toString(),
+                event.getVotes_paka(),
+                event.getVotes_sraka()
         );
         return ResponseEntity.ok(eventDto);
     }
@@ -84,8 +95,8 @@ public class EventController {
         EventCollectionDto createdEventDto = new EventCollectionDto(
                 event.getUuid(),
                 event.getName(),
-                event.getTimeStart().toString(),
-                event.getTimeEnd().toString()
+                event.getTime_start().toString(),
+                event.getTime_end().toString()
         );
         return ResponseEntity.ok(createdEventDto);
     }
@@ -114,8 +125,8 @@ public class EventController {
         EventCollectionDto updatedEventDto = new EventCollectionDto(
                 updatedEvent.getUuid(),
                 updatedEvent.getName(),
-                updatedEvent.getTimeStart().toString(),
-                updatedEvent.getTimeEnd().toString()
+                updatedEvent.getTime_start().toString(),
+                updatedEvent.getTime_end().toString()
         );
         return ResponseEntity.ok(updatedEventDto);
     }
