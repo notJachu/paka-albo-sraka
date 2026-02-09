@@ -1,0 +1,31 @@
+<main class="main">
+  <mat-sidenav-container class="sidebar-container" [hasBackdrop]="true">
+    <mat-sidenav #drawer mode="push" class="sidebar">
+      <h3>Sidebar</h3>
+      <nav class="sidebar-links">
+        <a routerLink="/">Home</a>
+        <a routerLink="/categories">Categories</a>
+      </nav>
+    </mat-sidenav>
+  <mat-card class="app-card">
+    <mat-card-header>
+      <mat-card-title>Apka z taczkami</mat-card-title>
+      <mat-card-subtitle>
+        <nav class="nav-links">
+          <a routerLink="/">Home</a>
+          <a routerLink="/categories">Categories</a>
+        </nav>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <button matButton="elevated" (click)="drawer.toggle()">Toggle drawer</button>
+
+    </mat-card-content>
+  </mat-card>
+    <app-vote-card>
+    </app-vote-card>
+  </mat-sidenav-container>
+</main>
+
+
+<router-outlet />
