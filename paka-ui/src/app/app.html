@@ -8,8 +8,15 @@
       </nav>
     </mat-sidenav>
 
+<!--    TODO: Replace header with actual logo-->
     <div class="top-bar">
-      <button matButton="elevated" (click)="drawer.toggle()">Toggle drawer</button>
+      <div class="menu-section">
+        <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h2><mat-icon>sports_bar</mat-icon>Paka</h2>
+      </div>
+
       <form class="search-container" (ngSubmit)="onSearch()" #searchForm="ngForm">
 
         <button mat-icon-button type="submit" aria-label="Szukaj">

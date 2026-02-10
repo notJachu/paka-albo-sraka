@@ -2,13 +2,13 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatCardModule, MatSidenavModule, MatButton, FormsModule, MatIcon],
+  imports: [RouterOutlet, MatCardModule, MatSidenavModule, MatButton, FormsModule, MatIcon, MatIconButton],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
