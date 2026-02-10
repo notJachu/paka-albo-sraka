@@ -1,31 +1,53 @@
 <main class="main">
   <mat-sidenav-container class="sidebar-container" [hasBackdrop]="true">
-    <mat-sidenav #drawer mode="push" class="sidebar">
-      <h3>Sidebar</h3>
+    <mat-sidenav #drawer mode="over" class="side-bar">
+      <h2 class="logo"><mat-icon>sports_bar</mat-icon>Paka</h2>
       <nav class="sidebar-links">
-        <a routerLink="/">Home</a>
-        <a routerLink="/categories">Categories</a>
+        <ul class="nav-list">
+        <li><a routerLink="/strona1">Podstrona 1</a></li>
+        <li><a routerLink="/strona2">Podstrona 2</a></li>
+        <li><a routerLink="/strona3">Podstrona 3</a></li>
+      </ul>
+
+        <ul class="nav-list extra-option">
+          <li><a routerLink="/opcja">Dodatkowa opcja</a></li>
+        </ul>
       </nav>
     </mat-sidenav>
-  <mat-card class="app-card">
-    <mat-card-header>
-      <mat-card-title>Apka z taczkami</mat-card-title>
-      <mat-card-subtitle>
-        <nav class="nav-links">
-          <a routerLink="/">Home</a>
-          <a routerLink="/categories">Categories</a>
-        </nav>
-      </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <button matButton="elevated" (click)="drawer.toggle()">Toggle drawer</button>
 
-    </mat-card-content>
-  </mat-card>
-    <app-vote-card>
-    </app-vote-card>
+<!--    TODO: Replace header with actual logo-->
+    <div class="top-bar">
+      <div class="menu-section">
+        <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h2><mat-icon>sports_bar</mat-icon>Paka</h2>
+      </div>
+
+      <form class="search-container" (ngSubmit)="onSearch()" #searchForm="ngForm">
+
+        <button mat-icon-button type="submit" aria-label="Szukaj">
+          <mat-icon>search</mat-icon>
+        </button>
+
+        <input
+          type="text"
+          name="query"
+          [(ngModel)]="searchQuery"
+          placeholder="Szukaj eventów"
+          autocomplete="off"
+          class="search-input">
+
+        <button mat-icon-button type="button" aria-label="Pokaż opcje wyszukiwania" (click)="openFilters()">
+          <mat-icon>tune</mat-icon>
+        </button>
+
+      </form>
+    </div>
+    <router-outlet />
+    <footer>
+        <p>Footer content goes here</p>
+    </footer>
   </mat-sidenav-container>
 </main>
 
-
-<router-outlet />
