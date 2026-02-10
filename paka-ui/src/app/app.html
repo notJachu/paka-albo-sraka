@@ -1,10 +1,17 @@
 <main class="main">
   <mat-sidenav-container class="sidebar-container" [hasBackdrop]="true">
-    <mat-sidenav #drawer mode="over" class="sidebar">
-      <h3>Sidebar</h3>
+    <mat-sidenav #drawer mode="over" class="side-bar">
+      <h2 class="logo"><mat-icon>sports_bar</mat-icon>Paka</h2>
       <nav class="sidebar-links">
-        <a routerLink="/">Home</a>
-        <a routerLink="/categories">Categories</a>
+        <ul class="nav-list">
+        <li><a routerLink="/strona1">Podstrona 1</a></li>
+        <li><a routerLink="/strona2">Podstrona 2</a></li>
+        <li><a routerLink="/strona3">Podstrona 3</a></li>
+      </ul>
+
+        <ul class="nav-list extra-option">
+          <li><a routerLink="/opcja">Dodatkowa opcja</a></li>
+        </ul>
       </nav>
     </mat-sidenav>
 

@@ -10,6 +10,46 @@ mat-sidenav-content {
   height: 100vh;
 }
 
+.side-bar{
+  display: flex;
+  flex-direction: column;
+}
+.logo{
+  padding: 1vw;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+  li {
+    max-width: 90%;
+
+    a {
+      display: block;
+      padding: 12px 24px;
+      text-decoration: none;
+      color: inherit;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      border-top-right-radius: 24px;
+      border-bottom-right-radius: 24px;
+      max-width: 70%;
+
+      /* Efekt po najechaniu (opcjonalny, jak w Material) */
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+    }
+  }
+}
+
+/* To jest kluczowe dla Twojego wymagania: */
+.extra-option {
+  margin-top: 10vh; /* Odsuwa tę listę o 10% wysokości widoku */
+}
+
 .top-bar{
   margin-top: 1vh;
   display: grid;
