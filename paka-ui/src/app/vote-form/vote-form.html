@@ -1,1 +1,5 @@
-<p>vote-form works!</p>
+
+
+<ng-form #voteForm="ngForm" (ngSubmit)="onSubmit(voteForm.value)">
+  <re-captcha (resolved)="handleCaptcha($event)" siteKey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT"></re-captcha>
+</ng-form>

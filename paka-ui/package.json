@@ -40,6 +40,7 @@
     "@angular/compiler-cli": "^21.1.0",
     "@angular/material": "^21.1.1",
     "jsdom": "^27.1.0",
+    "ng-recaptcha-2": "^21.0.1",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }

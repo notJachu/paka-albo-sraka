@@ -5,10 +5,11 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
+import {VoteForm} from './vote-form/vote-form';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatCardModule, MatSidenavModule, MatButton, FormsModule, MatIcon, MatIconButton],
+  imports: [RouterOutlet, MatCardModule, MatSidenavModule, MatButton, FormsModule, MatIcon, MatIconButton, VoteForm],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

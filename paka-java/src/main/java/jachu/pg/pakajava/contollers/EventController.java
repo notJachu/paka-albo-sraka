@@ -69,10 +69,10 @@ public class EventController {
                 event.getUuid(),
                 event.getName(),
                 event.getDescription(),
-                event.getTime_start().toString(),
-                event.getTime_end().toString(),
-                event.getVotes_paka(),
-                event.getVotes_sraka()
+                event.getTimeStart().toString(),
+                event.getTimeEnd().toString(),
+                event.getVotePaka(),
+                event.getVotesSraka()
         );
         return ResponseEntity.ok(eventDto);
     }
@@ -95,8 +95,8 @@ public class EventController {
         EventCollectionDto createdEventDto = new EventCollectionDto(
                 event.getUuid(),
                 event.getName(),
-                event.getTime_start().toString(),
-                event.getTime_end().toString()
+                event.getTimeStart().toString(),
+                event.getTimeEnd().toString()
         );
         return ResponseEntity.ok(createdEventDto);
     }
@@ -125,8 +125,8 @@ public class EventController {
         EventCollectionDto updatedEventDto = new EventCollectionDto(
                 updatedEvent.getUuid(),
                 updatedEvent.getName(),
-                updatedEvent.getTime_start().toString(),
-                updatedEvent.getTime_end().toString()
+                updatedEvent.getTimeStart().toString(),
+                updatedEvent.getTimeEnd().toString()
         );
         return ResponseEntity.ok(updatedEventDto);
     }
