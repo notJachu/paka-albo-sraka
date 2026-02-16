@@ -2,4 +2,9 @@
 
 <ng-form #voteForm="ngForm" (ngSubmit)="onSubmit(voteForm.value)">
   <re-captcha (resolved)="handleCaptcha($event)" siteKey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT"></re-captcha>
+  <h2>Event name</h2>
+  @if (isCaptchaCompleted) {
+    <button mat-button type="submit" [disabled]="!isCaptchaCompleted"> Paka </button>
+    <button mat-button type="submit" [disabled]="!isCaptchaCompleted"> Sraka </button>
+  }
 </ng-form>
