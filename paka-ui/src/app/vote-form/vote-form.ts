@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {RecaptchaModule} from 'ng-recaptcha-2';
+import {RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha-2';
 import {MatButton} from '@angular/material/button';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
@@ -10,6 +10,7 @@ import {ActivatedRoute} from '@angular/router';
   imports: [
     FormsModule,
     RecaptchaModule,
+    RecaptchaFormsModule,
     MatButton
   ],
   templateUrl: './vote-form.html',
@@ -20,6 +21,7 @@ export class VoteForm {
   protected isCaptchaCompleted: boolean = false;
   protected hasVoted: boolean = false;
   private eventUrl: string = '';
+  protected captchaToken: string = '';
 
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
@@ -37,12 +39,18 @@ export class VoteForm {
   }
   onSubmit(values: any) {
     console.log('Form submitted');
+    this.http.post('http://localhost:8080/api/events/81386bff-8038-4687-8f58-60a6218b9605/vote?vote=paka', values).subscribe(response => {
+      console.log('Vote submitted successfully:', response);
+      this.hasVoted = true;
+    }, error => {
+      console.error('Error submitting vote:', error);
+    });
   }
 
   handleCaptcha(event: any) {
     console.log('Captcha value:', event);
     this.isCaptchaCompleted = true;
-
+    this.captchaToken = event;
   }
 
   fetchEvent() {
@@ -53,4 +61,5 @@ export class VoteForm {
       console.error('Error fetching event data:', error);
     });
   }
+
 }

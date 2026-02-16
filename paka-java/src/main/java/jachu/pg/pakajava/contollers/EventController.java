@@ -4,12 +4,15 @@ package jachu.pg.pakajava.contollers;
 import jachu.pg.pakajava.entities.DTOs.EventCollectionDto;
 import jachu.pg.pakajava.entities.DTOs.EventCreateUpdateDto;
 import jachu.pg.pakajava.entities.DTOs.EventReadDto;
+import jachu.pg.pakajava.entities.DTOs.VoteRequest;
 import jachu.pg.pakajava.entities.Event;
 import jachu.pg.pakajava.repositories.EventRepository;
 import jachu.pg.pakajava.repositories.TimeBucketRepository;
+import jachu.pg.pakajava.services.CaptchaService;
 import jachu.pg.pakajava.services.EventService;
 import jachu.pg.pakajava.services.TimeBucketService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,15 +32,18 @@ public class EventController {
     private final EventRepository eventRepository;
     private final EventService eventService;
     private final TimeBucketService timeBucketService;
+    private final CaptchaService captchaService;
     private final UUID defaultEventID;
 
     public EventController(EventRepository eventRepository,
                            EventService eventService,
                            TimeBucketService timeBucketService,
+                           CaptchaService captchaService,
                            @Value("${default-event-uuid}") UUID defaultEventID) {
         this.eventRepository = eventRepository;
         this.eventService = eventService;
         this.timeBucketService = timeBucketService;
+        this.captchaService = captchaService;
         this.defaultEventID = defaultEventID;
     }
 
@@ -146,13 +152,20 @@ public class EventController {
 
     // Handle voting form submission
 //    TODO: move voting logic to service and only handle request/response in controller
+//    TODO: captcha token is in request body. Implement vote DTO to handle it instead of parsing from request
     @PostMapping("/{id}/vote")
     public ResponseEntity<Void> voteForEvent(@PathVariable UUID id,
                                              @RequestParam String vote,
                                              @CookieValue(value = "has_voted", required = false)
                                                  String hasVoted,
+                                             @RequestBody VoteRequest voteData,
                                              HttpServletResponse response) {
 
+//        String captchaToken = request.getParameter("g-recaptcha-response");
+        System.out.println(voteData.toString());
+        if (voteData.captchaToken == null || !captchaService.verifyRecaptcha("", voteData.captchaToken)) {
+            return ResponseEntity.status(403).build();
+        }
         // should probably move to service
         Event event = eventRepository.findById(id).orElse(null);
 
@@ -188,5 +201,4 @@ public class EventController {
 
         return ResponseEntity.ok().build();
     }
-
 }
