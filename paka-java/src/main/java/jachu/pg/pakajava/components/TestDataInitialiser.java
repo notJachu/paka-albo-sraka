@@ -45,9 +45,9 @@ public class TestDataInitialiser {
                 .uuid(defaultID)
                 .name("defaultName")
                 .description("defaultDesc")
-                .time_create(LocalDateTime.now())
-                .time_start(LocalDateTime.now())
-                .time_end(LocalDateTime.now())
+                .timeCreate(LocalDateTime.now())
+                .timeStart(LocalDateTime.now().plusDays(1))
+                .timeEnd(LocalDateTime.now())
                 .build();
         eventRepository.save(eventDefault);
         timeBucketService.recordVote(1);
