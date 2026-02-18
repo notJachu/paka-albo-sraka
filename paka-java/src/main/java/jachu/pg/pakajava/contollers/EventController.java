@@ -152,7 +152,6 @@ public class EventController {
 
     // Handle voting form submission
 //    TODO: move voting logic to service and only handle request/response in controller
-//    TODO: captcha token is in request body. Implement vote DTO to handle it instead of parsing from request
     @PostMapping("/{id}/vote")
     public ResponseEntity<Void> voteForEvent(@PathVariable UUID id,
                                              @RequestParam String vote,

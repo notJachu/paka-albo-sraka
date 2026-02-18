@@ -4,6 +4,7 @@ import {RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha-2';
 import {MatButton} from '@angular/material/button';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
+import {EventReadDto} from '../EventReadDto';
 
 @Component({
   selector: 'app-vote-form',
@@ -23,6 +24,8 @@ export class VoteForm {
   private eventUrl: string = '';
   protected captchaToken: string = '';
 
+  protected eventData: EventReadDto | null = null;
+
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
 
@@ -37,6 +40,8 @@ export class VoteForm {
       this.fetchEvent();
     }
   }
+
+  // TODO: change url and vote value to be actual values and not hardcoded
   onSubmit(values: any) {
     console.log('Form submitted');
     this.http.post('http://localhost:8080/api/events/81386bff-8038-4687-8f58-60a6218b9605/vote?vote=paka', values).subscribe(response => {
@@ -55,8 +60,9 @@ export class VoteForm {
 
   fetchEvent() {
     console.log('Fetching event data...');
-    this.http.get<any>(this.eventUrl).subscribe(data => {
-      console.log('Event data received:', data);
+    this.http.get<EventReadDto>(this.eventUrl).subscribe(data => {
+      this.eventData = data;
+      console.log('Event data fetched:', this.eventData);
     }, error => {
       console.error('Error fetching event data:', error);
     });
