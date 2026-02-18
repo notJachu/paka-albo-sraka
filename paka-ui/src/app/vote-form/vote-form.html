@@ -1,15 +1,18 @@
 
-
-<form #voteForm="ngForm">
-  <re-captcha
-    [ngModel]="captchaToken"
-    name="captcha"
-    (resolved)="handleCaptcha($event)"
-    siteKey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT">
-  </re-captcha>
-  <h2>Event name</h2>
-  @if (isCaptchaCompleted) {
-    <button mat-button type="submit" [disabled]="!isCaptchaCompleted" (click)="onSubmit('paka')"> Paka </button>
-    <button mat-button type="submit" [disabled]="!isCaptchaCompleted" (click)="onSubmit('sraka')"> Sraka </button>
-  }
-</form>
+@if (eventData()) {
+  <form #voteForm="ngForm">
+    <h2>{{eventData()?.eventName}}</h2>
+    <re-captcha
+      [ngModel]="captchaToken"
+      name="captcha"
+      (resolved)="handleCaptcha($event)"
+      siteKey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT">
+    </re-captcha>
+    @if (isCaptchaCompleted) {
+      <button mat-button type="submit" [disabled]="!isCaptchaCompleted" (click)="onSubmit('paka')"> Paka </button>
+      <button mat-button type="submit" [disabled]="!isCaptchaCompleted" (click)="onSubmit('sraka')"> Sraka </button>
+    }
+  </form>
+} @else {
+  <p>Ładowanie danych eventu...</p>
+}
