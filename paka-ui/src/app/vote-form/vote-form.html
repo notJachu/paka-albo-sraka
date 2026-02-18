@@ -1,10 +1,15 @@
 
 
-<form #voteForm="ngForm" (ngSubmit)="onSubmit(voteForm.value)">
-  <re-captcha [ngModel]="voteForm" name="captcha" (resolved)="handleCaptcha($event)" siteKey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT"></re-captcha>
+<form #voteForm="ngForm">
+  <re-captcha
+    [ngModel]="captchaToken"
+    name="captcha"
+    (resolved)="handleCaptcha($event)"
+    siteKey="6Ldb4ykrAAAAAP_57F3InL2PywevJa6sinH2eoaT">
+  </re-captcha>
   <h2>Event name</h2>
   @if (isCaptchaCompleted) {
-    <button mat-button type="submit" [disabled]="!isCaptchaCompleted"> Paka </button>
-    <button mat-button type="submit" [disabled]="!isCaptchaCompleted"> Sraka </button>
+    <button mat-button type="submit" [disabled]="!isCaptchaCompleted" (click)="onSubmit('paka')"> Paka </button>
+    <button mat-button type="submit" [disabled]="!isCaptchaCompleted" (click)="onSubmit('sraka')"> Sraka </button>
   }
 </form>

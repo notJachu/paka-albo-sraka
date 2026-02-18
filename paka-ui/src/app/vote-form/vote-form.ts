@@ -41,10 +41,13 @@ export class VoteForm {
     }
   }
 
-  // TODO: change url and vote value to be actual values and not hardcoded
-  onSubmit(values: any) {
+  onSubmit(value: any) {
     console.log('Form submitted');
-    this.http.post('http://localhost:8080/api/events/81386bff-8038-4687-8f58-60a6218b9605/vote?vote=paka', values).subscribe(response => {
+    const finalData = {
+      captcha: this.captchaToken,
+      vote: value
+    };
+    this.http.post('http://localhost:8080/api/events/'+ this.eventData?.eventId +'/vote?vote=' + value, finalData).subscribe(response => {
       console.log('Vote submitted successfully:', response);
       this.hasVoted = true;
     }, error => {
