@@ -32,6 +32,8 @@ export class VoteForm implements OnInit{
 
   private eventId = this.route.snapshot.paramMap.get('eventId') || 'default';
 
+  vote: string = '';
+
   eventData = toSignal(
     this.http.get<EventReadDto>(`http://localhost:8080/api/events/${this.eventId}`)
   );
@@ -54,11 +56,13 @@ export class VoteForm implements OnInit{
       captcha: this.captchaToken,
       vote: value
     };
+    this.vote = value;
     this.http.post('http://localhost:8080/api/events/'+ event.eventId + '/vote?vote=' + value, finalData, {
       withCredentials: true
     }).subscribe(response => {
       console.log('Vote submitted successfully:', response);
       this.hasVoted.set(true);
+
     }, error => {
       console.error('Error submitting vote:', error);
     });

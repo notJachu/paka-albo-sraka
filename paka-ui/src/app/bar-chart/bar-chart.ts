@@ -11,6 +11,7 @@ import Chart from 'chart.js/auto';
 export class BarChart implements OnInit {
 
   event = input.required<EventReadDto>();
+  vote = input<string>('');
 
   chart: any = [];
 
@@ -29,7 +30,7 @@ export class BarChart implements OnInit {
           ],
           datasets: [{
             label: 'Votes',
-            data: [this.event().votesPaka, this.event().votesSraka],
+            data: [this.event().votesPaka + (this.vote() == 'paka' ? 1: 0) , this.event().votesSraka + (this.vote() == 'sraka' ? 1: 0)],
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)'
