@@ -1,5 +1,6 @@
 
 @if (eventData()) {
+
   <form #voteForm="ngForm">
     <h2>{{eventData()?.eventName}}</h2>
     <re-captcha
@@ -13,6 +14,7 @@
       <button mat-button type="submit" [disabled]="!isCaptchaCompleted" (click)="onSubmit('sraka')"> Sraka </button>
     }
   </form>
+  <app-bar-chart [event]="eventData()!"></app-bar-chart>
 } @else {
   <p>Ładowanie danych eventu...</p>
 }

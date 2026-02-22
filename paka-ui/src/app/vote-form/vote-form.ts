@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {EventReadDto} from '../EventReadDto';
 import {toSignal} from '@angular/core/rxjs-interop';
+import {BarChart} from '../bar-chart/bar-chart';
 
 @Component({
   selector: 'app-vote-form',
@@ -14,6 +15,7 @@ import {toSignal} from '@angular/core/rxjs-interop';
     RecaptchaModule,
     RecaptchaFormsModule,
     MatButton,
+    BarChart,
   ],
   templateUrl: './vote-form.html',
   styleUrl: './vote-form.css',
@@ -22,7 +24,6 @@ export class VoteForm {
 
   protected isCaptchaCompleted: boolean = false;
   protected hasVoted: boolean = false;
-  private eventUrl: string = '';
   protected captchaToken: string = '';
 
   private http = inject(HttpClient);
