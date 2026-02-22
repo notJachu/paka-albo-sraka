@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha-2';
 import {MatButton} from '@angular/material/button';
@@ -23,7 +23,7 @@ import {BarChart} from '../bar-chart/bar-chart';
 export class VoteForm {
 
   protected isCaptchaCompleted: boolean = false;
-  protected hasVoted: boolean = false;
+  protected hasVoted = signal(false);
   protected captchaToken: string = '';
 
   private http = inject(HttpClient);
@@ -49,9 +49,11 @@ export class VoteForm {
       captcha: this.captchaToken,
       vote: value
     };
-    this.http.post('http://localhost:8080/api/events/'+ event.eventId + '/vote?vote=' + value, finalData).subscribe(response => {
+    this.http.post('http://localhost:8080/api/events/'+ event.eventId + '/vote?vote=' + value, finalData, {
+      withCredentials: true
+    }).subscribe(response => {
       console.log('Vote submitted successfully:', response);
-      this.hasVoted = true;
+      this.hasVoted.set(true);
     }, error => {
       console.error('Error submitting vote:', error);
     });
