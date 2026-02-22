@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha-2';
 import {MatButton} from '@angular/material/button';
@@ -7,6 +7,7 @@ import {ActivatedRoute} from '@angular/router';
 import {EventReadDto} from '../EventReadDto';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {BarChart} from '../bar-chart/bar-chart';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-vote-form',
@@ -20,7 +21,7 @@ import {BarChart} from '../bar-chart/bar-chart';
   templateUrl: './vote-form.html',
   styleUrl: './vote-form.css',
 })
-export class VoteForm {
+export class VoteForm implements OnInit{
 
   protected isCaptchaCompleted: boolean = false;
   protected hasVoted = signal(false);
@@ -35,7 +36,11 @@ export class VoteForm {
     this.http.get<EventReadDto>(`http://localhost:8080/api/events/${this.eventId}`)
   );
 
-  constructor() {
+  constructor(private cookieService: CookieService) {
+  }
+
+  ngOnInit() {
+    this.hasVoted.set(this.cookieService.check("has_voted"))
   }
 
   onSubmit(value: any) {

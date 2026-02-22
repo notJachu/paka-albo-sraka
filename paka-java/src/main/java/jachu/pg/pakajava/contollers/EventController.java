@@ -194,8 +194,9 @@ public class EventController {
         Cookie cookie = new Cookie("has_voted", "true");
         cookie.setPath("/");
         cookie.setMaxAge(3600);
-        cookie.setHttpOnly(true);
-
+        cookie.setHttpOnly(false);
+//        for now allow frontend to read cookie to disable voting form,
+//        but should consider making it httpOnly and only use it for backend validation
         response.addCookie(cookie);
 
         return ResponseEntity.ok().build();
